@@ -1,0 +1,46 @@
+{
+  "name": "SimulationScore",
+  "type": "object",
+  "properties": {
+    "player_name": {
+      "type": "string",
+      "description": "Nom du joueur"
+    },
+    "total_score": {
+      "type": "number",
+      "description": "Score NIRD total"
+    },
+    "budget_score": {
+      "type": "number",
+      "description": "Budget final en K\u20ac"
+    },
+    "satisfaction_score": {
+      "type": "number",
+      "description": "Score satisfaction"
+    },
+    "autonomy_score": {
+      "type": "number",
+      "description": "Score autonomie"
+    },
+    "ecology_score": {
+      "type": "number",
+      "description": "Score \u00e9cologie"
+    },
+    "scenarios_completed": {
+      "type": "number",
+      "description": "Nombre de sc\u00e9narios compl\u00e9t\u00e9s"
+    },
+    "ai_scenarios_completed": {
+      "type": "number",
+      "description": "Nombre de sc\u00e9narios IA compl\u00e9t\u00e9s"
+    },
+    "play_duration": {
+      "type": "number",
+      "description": "Dur\u00e9e de jeu en secondes"
+    }
+  },
+  "required": [
+    "player_name",
+    "total_score"
+  ]
+}

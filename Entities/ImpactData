@@ -1,0 +1,50 @@
+{
+  "name": "ImpactData",
+  "type": "object",
+  "properties": {
+    "establishment_name": {
+      "type": "string",
+      "description": "Nom de l'\u00e9tablissement"
+    },
+    "month": {
+      "type": "string",
+      "description": "Mois de suivi (YYYY-MM)"
+    },
+    "server_consumption_kwh": {
+      "type": "number",
+      "description": "Consommation \u00e9lectrique des serveurs en kWh"
+    },
+    "devices_recycled": {
+      "type": "number",
+      "description": "Nombre d'appareils recycl\u00e9s/reconditionn\u00e9s"
+    },
+    "devices_extended_life": {
+      "type": "number",
+      "description": "Nombre d'appareils dont la dur\u00e9e de vie a \u00e9t\u00e9 prolong\u00e9e"
+    },
+    "free_software_percentage": {
+      "type": "number",
+      "description": "Pourcentage d'utilisation de logiciels libres (0-100)"
+    },
+    "linux_devices": {
+      "type": "number",
+      "description": "Nombre de postes sous Linux"
+    },
+    "total_devices": {
+      "type": "number",
+      "description": "Nombre total de postes"
+    },
+    "co2_saved_kg": {
+      "type": "number",
+      "description": "CO2 \u00e9conomis\u00e9 estim\u00e9 en kg"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Notes et observations"
+    }
+  },
+  "required": [
+    "establishment_name",
+    "month"
+  ]
+}

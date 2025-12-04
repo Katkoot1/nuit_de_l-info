@@ -1,0 +1,55 @@
+{
+  "name": "ForumPost",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Titre du post"
+    },
+    "content": {
+      "type": "string",
+      "description": "Contenu du message"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "experience",
+        "question",
+        "resource",
+        "best-practice",
+        "suggestion"
+      ],
+      "description": "Cat\u00e9gorie du post"
+    },
+    "author_name": {
+      "type": "string",
+      "description": "Nom de l'auteur"
+    },
+    "likes": {
+      "type": "number",
+      "default": 0,
+      "description": "Nombre de likes"
+    },
+    "replies_count": {
+      "type": "number",
+      "default": 0,
+      "description": "Nombre de r\u00e9ponses"
+    },
+    "marked_useful": {
+      "type": "boolean",
+      "default": false,
+      "description": "Post marqu\u00e9 comme utile par la communaut\u00e9"
+    },
+    "useful_count": {
+      "type": "number",
+      "default": 0,
+      "description": "Nombre de votes 'Utile'"
+    }
+  },
+  "required": [
+    "title",
+    "content",
+    "category",
+    "author_name"
+  ]
+}

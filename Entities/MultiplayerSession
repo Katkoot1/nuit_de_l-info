@@ -1,0 +1,62 @@
+{
+  "name": "MultiplayerSession",
+  "type": "object",
+  "properties": {
+    "session_code": {
+      "type": "string",
+      "description": "Code unique pour rejoindre la session"
+    },
+    "host_name": {
+      "type": "string",
+      "description": "Nom de l'h\u00f4te"
+    },
+    "mode": {
+      "type": "string",
+      "enum": [
+        "competition",
+        "collaboration"
+      ],
+      "description": "Mode de jeu"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "waiting",
+        "playing",
+        "finished"
+      ],
+      "default": "waiting"
+    },
+    "players": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "joined_at": {
+            "type": "string"
+          },
+          "is_ready": {
+            "type": "boolean"
+          }
+        }
+      },
+      "description": "Liste des joueurs"
+    },
+    "current_scenario": {
+      "type": "number",
+      "default": 0
+    },
+    "max_players": {
+      "type": "number",
+      "default": 4
+    }
+  },
+  "required": [
+    "session_code",
+    "host_name",
+    "mode"
+  ]
+}

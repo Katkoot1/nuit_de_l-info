@@ -1,0 +1,38 @@
+{
+  "name": "ForumReply",
+  "type": "object",
+  "properties": {
+    "post_id": {
+      "type": "string",
+      "description": "ID du post parent"
+    },
+    "content": {
+      "type": "string",
+      "description": "Contenu de la r\u00e9ponse"
+    },
+    "author_name": {
+      "type": "string",
+      "description": "Nom de l'auteur"
+    },
+    "likes": {
+      "type": "number",
+      "default": 0,
+      "description": "Nombre de likes"
+    },
+    "marked_helpful": {
+      "type": "boolean",
+      "default": false,
+      "description": "R\u00e9ponse marqu\u00e9e comme aidante"
+    },
+    "helpful_count": {
+      "type": "number",
+      "default": 0,
+      "description": "Nombre de votes 'Aidant'"
+    }
+  },
+  "required": [
+    "post_id",
+    "content",
+    "author_name"
+  ]
+}

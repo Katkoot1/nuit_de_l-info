@@ -1,0 +1,65 @@
+{
+  "name": "PlayerResult",
+  "type": "object",
+  "properties": {
+    "session_id": {
+      "type": "string",
+      "description": "ID de la session multijoueur"
+    },
+    "player_name": {
+      "type": "string",
+      "description": "Nom du joueur"
+    },
+    "scores": {
+      "type": "object",
+      "properties": {
+        "budget": {
+          "type": "number"
+        },
+        "satisfaction": {
+          "type": "number"
+        },
+        "autonomy": {
+          "type": "number"
+        },
+        "ecology": {
+          "type": "number"
+        },
+        "risk": {
+          "type": "number"
+        }
+      },
+      "description": "Scores finaux"
+    },
+    "decisions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "scenario": {
+            "type": "number"
+          },
+          "decision_index": {
+            "type": "number"
+          },
+          "time_taken": {
+            "type": "number"
+          }
+        }
+      },
+      "description": "Historique des d\u00e9cisions"
+    },
+    "total_score": {
+      "type": "number",
+      "description": "Score total calcul\u00e9"
+    },
+    "completion_time": {
+      "type": "number",
+      "description": "Temps total en secondes"
+    }
+  },
+  "required": [
+    "session_id",
+    "player_name"
+  ]
+}
