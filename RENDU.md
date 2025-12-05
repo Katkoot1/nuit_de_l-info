@@ -10,7 +10,7 @@
 
 ## 🌐 URL de l'Application
 
-**URL de production :** https://exquisite-sorbet-a3a9de.netlify.app/
+**URL de production :** https://nuitdelinfo.netlify.app/forum
 
 **Plateforme de déploiement :** Netlify
 
