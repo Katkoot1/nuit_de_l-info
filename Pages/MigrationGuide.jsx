@@ -60,20 +60,23 @@ const migrationSteps = [
       {
         type: 'guide',
         title: 'Guide d\'audit du parc informatique',
-        url: '#',
-        icon: FileText
+        url: 'https://nird.forge.apps.education.fr/',
+        icon: FileText,
+        description: 'Ressources NIRD pour évaluer votre parc'
       },
       {
         type: 'video',
         title: 'Présentation des distributions Linux éducatives',
-        url: '#',
-        icon: Video
+        url: 'https://tube-numerique-educatif.apps.education.fr/w/3LXem3XK4asbwZa5R1qGkW',
+        icon: Video,
+        description: 'Vidéo du lycée Carnot (5 min)'
       },
       {
         type: 'template',
         title: 'Modèle de plan de migration',
-        url: '#',
-        icon: Download
+        url: 'https://www.april.org/',
+        icon: Download,
+        description: 'Ressources April pour la migration'
       }
     ]
   },
@@ -91,21 +94,24 @@ const migrationSteps = [
     resources: [
       {
         type: 'guide',
-        title: 'Guide d\'installation Ubuntu Éducation',
-        url: '#',
-        icon: FileText
+        title: 'Guide d\'installation Linux Mint',
+        url: 'https://linuxmint.com/documentation.php',
+        icon: FileText,
+        description: 'Documentation officielle Linux Mint'
       },
       {
         type: 'video',
-        title: 'Tutoriel installation pas à pas',
-        url: '#',
-        icon: Video
+        title: 'Le projet NIRD présenté par les élèves',
+        url: 'https://tube-numerique-educatif.apps.education.fr/w/pZCnzPKTYX2iF38Qh4ZGmq',
+        icon: Video,
+        description: 'Témoignage lycée Carnot (4 min)'
       },
       {
         type: 'template',
-        title: 'Formulaire de retour utilisateur',
-        url: '#',
-        icon: Download
+        title: 'Alternatives libres Framasoft',
+        url: 'https://framasoft.org/fr/',
+        icon: Download,
+        description: 'Découvrir les alternatives libres'
       }
     ]
   },
@@ -124,20 +130,23 @@ const migrationSteps = [
       {
         type: 'guide',
         title: 'Guide de déploiement massif',
-        url: '#',
-        icon: FileText
+        url: 'https://nird.forge.apps.education.fr/',
+        icon: FileText,
+        description: 'Méthodologie NIRD complète'
       },
       {
         type: 'video',
-        title: 'Formation utilisateurs finaux',
-        url: '#',
-        icon: Video
+        title: 'Linux, c\'est facile ! - Lycée Carnot',
+        url: 'https://tube-numerique-educatif.apps.education.fr/w/3LXem3XK4asbwZa5R1qGkW',
+        icon: Video,
+        description: 'Présentation par les élèves (5 min)'
       },
       {
         type: 'template',
-        title: 'Checklist de déploiement',
-        url: '#',
-        icon: Download
+        title: 'Ressources April',
+        url: 'https://www.april.org/',
+        icon: Download,
+        description: 'Association pour le logiciel libre'
       }
     ]
   },
@@ -156,20 +165,23 @@ const migrationSteps = [
       {
         type: 'guide',
         title: 'Guide d\'optimisation Linux',
-        url: '#',
-        icon: FileText
+        url: 'https://www.greenit.fr/etude-empreinte-environnementale-du-numerique-mondial/',
+        icon: FileText,
+        description: 'Impact environnemental du numérique'
       },
       {
         type: 'video',
-        title: 'Astuces et bonnes pratiques',
-        url: '#',
-        icon: Video
+        title: 'Documentaire : Internet, la pollution cachée',
+        url: 'https://www.youtube.com/results?search_query=internet+pollution+cachee',
+        icon: Video,
+        description: 'Enquête sur l\'impact environnemental'
       },
       {
         type: 'template',
-        title: 'Tableau de bord de suivi',
-        url: '#',
-        icon: Download
+        title: 'Forge des Communs Numériques',
+        url: 'https://forge.apps.education.fr/',
+        icon: Download,
+        description: 'Plateforme collaborative Éducation'
       }
     ]
   }
@@ -444,13 +456,20 @@ export default function MigrationGuide() {
                                         href={resource.url}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="flex items-center gap-2 p-3 bg-slate-700/50 hover:bg-slate-700 rounded-lg transition-colors group"
+                                        className="flex flex-col gap-1 p-3 bg-slate-700/50 hover:bg-slate-700 hover:border-blue-400/50 border border-transparent rounded-lg transition-all group cursor-pointer"
                                       >
-                                        <ResourceIcon className="w-4 h-4 text-slate-400 group-hover:text-blue-400" />
-                                        <span className="text-sm text-slate-300 group-hover:text-white flex-1">
-                                          {resource.title}
-                                        </span>
-                                        <ExternalLink className="w-3 h-3 text-slate-500 group-hover:text-blue-400" />
+                                        <div className="flex items-center gap-2">
+                                          <ResourceIcon className="w-4 h-4 text-slate-400 group-hover:text-blue-400 transition-colors flex-shrink-0" />
+                                          <span className="text-sm font-medium text-slate-300 group-hover:text-white flex-1">
+                                            {resource.title}
+                                          </span>
+                                          <ExternalLink className="w-3 h-3 text-slate-500 group-hover:text-blue-400 transition-colors flex-shrink-0" />
+                                        </div>
+                                        {resource.description && (
+                                          <p className="text-xs text-slate-400 group-hover:text-slate-300 ml-6">
+                                            {resource.description}
+                                          </p>
+                                        )}
                                       </a>
                                     );
                                   })}

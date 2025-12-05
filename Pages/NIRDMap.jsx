@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   MapPin, Filter, Search, Building, Users, Leaf, 
@@ -9,8 +9,19 @@ import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
 
-// Données d'exemple d'établissements
+// Fix pour les icônes Leaflet avec Vite
+delete L.Icon.Default.prototype._getIconUrl;
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon-2x.png',
+  iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon.png',
+  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png',
+});
+
+// Données d'exemple d'établissements avec coordonnées GPS réelles
 const establishments = [
   {
     id: 1,
@@ -18,7 +29,7 @@ const establishments = [
     type: 'lycée',
     region: 'Hauts-de-France',
     city: 'Bruay-la-Buissière',
-    coordinates: { x: 45, y: 25 }, // Position sur la carte simplifiée
+    coordinates: [50.4814, 2.5458], // [lat, lng]
     engagementLevel: 'avancé',
     freeSoftwarePercentage: 78,
     linuxDevices: 110,
@@ -34,7 +45,7 @@ const establishments = [
     type: 'collège',
     region: 'Île-de-France',
     city: 'Paris',
-    coordinates: { x: 50, y: 30 },
+    coordinates: [48.8566, 2.3522],
     engagementLevel: 'intermédiaire',
     freeSoftwarePercentage: 55,
     linuxDevices: 45,
@@ -50,7 +61,7 @@ const establishments = [
     type: 'lycée',
     region: 'Hauts-de-France',
     city: 'Bruay-la-Buissière',
-    coordinates: { x: 45, y: 24 },
+    coordinates: [50.4833, 2.5500],
     engagementLevel: 'avancé',
     freeSoftwarePercentage: 85,
     linuxDevices: 200,
@@ -66,7 +77,7 @@ const establishments = [
     type: 'collège',
     region: 'Nouvelle-Aquitaine',
     city: 'Bordeaux',
-    coordinates: { x: 40, y: 50 },
+    coordinates: [44.8378, -0.5792],
     engagementLevel: 'avancé',
     freeSoftwarePercentage: 70,
     linuxDevices: 85,
@@ -82,7 +93,7 @@ const establishments = [
     type: 'lycée',
     region: 'Auvergne-Rhône-Alpes',
     city: 'Lyon',
-    coordinates: { x: 55, y: 45 },
+    coordinates: [45.7640, 4.8357],
     engagementLevel: 'intermédiaire',
     freeSoftwarePercentage: 45,
     linuxDevices: 60,
@@ -98,7 +109,7 @@ const establishments = [
     type: 'collège',
     region: 'Provence-Alpes-Côte d\'Azur',
     city: 'Marseille',
-    coordinates: { x: 58, y: 60 },
+    coordinates: [43.2965, 5.3698],
     engagementLevel: 'débutant',
     freeSoftwarePercentage: 25,
     linuxDevices: 20,
@@ -114,7 +125,7 @@ const establishments = [
     type: 'lycée',
     region: 'Occitanie',
     city: 'Toulouse',
-    coordinates: { x: 42, y: 55 },
+    coordinates: [43.6047, 1.4442],
     engagementLevel: 'intermédiaire',
     freeSoftwarePercentage: 60,
     linuxDevices: 95,
@@ -130,7 +141,7 @@ const establishments = [
     type: 'collège',
     region: 'Grand Est',
     city: 'Strasbourg',
-    coordinates: { x: 60, y: 35 },
+    coordinates: [48.5734, 7.7521],
     engagementLevel: 'avancé',
     freeSoftwarePercentage: 75,
     linuxDevices: 70,
@@ -146,14 +157,46 @@ const regions = ['Toutes', ...new Set(establishments.map(e => e.region))];
 const types = ['Tous', 'lycée', 'collège'];
 const engagementLevels = ['Tous', 'débutant', 'intermédiaire', 'avancé'];
 
+// Composant pour centrer la carte sur les établissements
+function MapCenter({ center, zoom }) {
+  const map = useMap();
+  useEffect(() => {
+    if (center) {
+      map.setView(center, zoom);
+    }
+  }, [map, center, zoom]);
+  return null;
+}
+
+// Créer des icônes personnalisées selon le niveau d'engagement
+const createCustomIcon = (level) => {
+  const colors = {
+    'avancé': '#10b981',
+    'intermédiaire': '#3b82f6',
+    'débutant': '#f97316'
+  };
+  
+  return L.divIcon({
+    className: 'custom-marker',
+    html: `<div style="background-color: ${colors[level] || '#6b7280'}; width: 20px; height: 20px; border-radius: 50%; border: 3px solid white; box-shadow: 0 2px 8px rgba(0,0,0,0.3);"></div>`,
+    iconSize: [20, 20],
+    iconAnchor: [10, 10],
+  });
+};
+
 export default function NIRDMap() {
   const [selectedEstablishment, setSelectedEstablishment] = useState(null);
+  const [isClient, setIsClient] = useState(false);
   const [filters, setFilters] = useState({
     region: 'Toutes',
     type: 'Tous',
     engagementLevel: 'Tous',
     search: ''
   });
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   const filteredEstablishments = useMemo(() => {
     if (!establishments || establishments.length === 0) {
@@ -168,6 +211,16 @@ export default function NIRDMap() {
       return true;
     });
   }, [filters]);
+
+  // Calculer le centre de la carte basé sur les établissements filtrés
+  const mapCenter = useMemo(() => {
+    if (filteredEstablishments.length === 0) {
+      return [46.6034, 1.8883]; // Centre de la France
+    }
+    const avgLat = filteredEstablishments.reduce((sum, e) => sum + e.coordinates[0], 0) / filteredEstablishments.length;
+    const avgLng = filteredEstablishments.reduce((sum, e) => sum + e.coordinates[1], 0) / filteredEstablishments.length;
+    return [avgLat, avgLng];
+  }, [filteredEstablishments]);
 
   const getEngagementColor = (level) => {
     switch(level) {
@@ -306,44 +359,62 @@ export default function NIRDMap() {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               className="bg-slate-800/50 rounded-2xl border border-white/10 p-6 relative overflow-hidden"
-              style={{ minHeight: '500px' }}
+              style={{ minHeight: '600px' }}
             >
               <h3 className="text-lg font-semibold text-white mb-4">Carte de France</h3>
               
-              {/* Carte simplifiée de la France */}
-              <div className="relative w-full h-full" style={{ minHeight: '450px' }}>
-                {/* Fond de la carte */}
-                <svg viewBox="0 0 100 100" className="w-full h-full absolute inset-0">
-                  {/* Forme simplifiée de la France */}
-                  <path
-                    d="M 20 30 L 30 25 L 40 20 L 50 22 L 60 25 L 70 30 L 75 40 L 70 50 L 65 60 L 60 70 L 50 75 L 40 75 L 30 70 L 25 60 L 20 50 Z"
-                    fill="#1e293b"
-                    stroke="#334155"
-                    strokeWidth="0.5"
-                  />
-                </svg>
-
-                {/* Points des établissements */}
-                {filteredEstablishments.map(est => (
-                  <motion.button
-                    key={est.id}
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    whileHover={{ scale: 1.2 }}
-                    onClick={() => setSelectedEstablishment(est)}
-                    className="absolute transform -translate-x-1/2 -translate-y-1/2 z-10"
-                    style={{
-                      left: `${est.coordinates.x}%`,
-                      top: `${est.coordinates.y}%`
-                    }}
+              {/* Carte Leaflet */}
+              {isClient ? (
+                <div className="relative w-full" style={{ height: '550px', borderRadius: '12px', overflow: 'hidden' }}>
+                  <MapContainer
+                    center={mapCenter}
+                    zoom={filteredEstablishments.length === 1 ? 12 : filteredEstablishments.length > 0 ? 6 : 6}
+                    style={{ height: '100%', width: '100%', zIndex: 1 }}
+                    className="rounded-lg"
                   >
-                    <div className={`w-4 h-4 rounded-full ${getEngagementColor(est.engagementLevel)} shadow-lg`} />
-                    <div className="absolute -top-8 left-1/2 -translate-x-1/2 whitespace-nowrap text-xs text-white bg-slate-800 px-2 py-1 rounded opacity-0 hover:opacity-100 transition-opacity pointer-events-none">
-                      {est.name}
-                    </div>
-                  </motion.button>
-                ))}
-              </div>
+                    <TileLayer
+                      attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                      url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                    />
+                    <MapCenter center={mapCenter} zoom={filteredEstablishments.length === 1 ? 12 : filteredEstablishments.length > 0 ? 6 : 6} />
+                    
+                    {filteredEstablishments.map(est => (
+                      <Marker
+                        key={est.id}
+                        position={est.coordinates}
+                        icon={createCustomIcon(est.engagementLevel)}
+                        eventHandlers={{
+                          click: () => setSelectedEstablishment(est),
+                        }}
+                      >
+                        <Popup>
+                          <div className="text-sm">
+                            <h4 className="font-semibold text-slate-900 mb-1">{est.name}</h4>
+                            <p className="text-slate-600 mb-2">{est.city}, {est.region}</p>
+                            <div className="flex items-center gap-2 mb-2">
+                              <div className={`w-3 h-3 rounded-full ${getEngagementColor(est.engagementLevel)}`} />
+                              <span className="text-xs text-slate-600">{getEngagementLabel(est.engagementLevel)}</span>
+                            </div>
+                            <p className="text-xs text-slate-500">
+                              {est.freeSoftwarePercentage}% logiciels libres • {est.linuxDevices} postes Linux
+                            </p>
+                            <button
+                              onClick={() => setSelectedEstablishment(est)}
+                              className="mt-2 w-full px-3 py-1 bg-emerald-500 text-white rounded text-xs hover:bg-emerald-600 transition-colors"
+                            >
+                              Voir les détails
+                            </button>
+                          </div>
+                        </Popup>
+                      </Marker>
+                    ))}
+                  </MapContainer>
+                </div>
+              ) : (
+                <div className="relative w-full flex items-center justify-center" style={{ height: '550px', borderRadius: '12px', backgroundColor: '#1e293b' }}>
+                  <p className="text-slate-400">Chargement de la carte...</p>
+                </div>
+              )}
             </motion.div>
           </div>
 
