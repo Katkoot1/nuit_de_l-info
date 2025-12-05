@@ -12,7 +12,11 @@ export function createPageUrl(pageName) {
     'Profil': '/profile',
     'SimulationGame': '/simulation',
     'Resources': '/resources',
-    'EstablishmentDashboard': '/dashboard'
+    'EstablishmentDashboard': '/dashboard',
+    'MigrationGuide': '/migration',
+    'CarbonFootprintCalculator': '/carbon-calculator',
+    'CostComparator': '/cost-comparator',
+    'NIRDMap': '/map'
   };
   
   return pageMap[pageName] || `/${pageName.toLowerCase()}`;

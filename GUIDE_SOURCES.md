@@ -161,3 +161,4 @@ git remote set-url origin https://github.com/VOTRE-USERNAME/nird-quest.git
 
 **Recommandation :** Utilisez GitHub (Option 1) car c'est plus professionnel, permanent, et permet aux correcteurs de voir l'historique du projet.
 
+

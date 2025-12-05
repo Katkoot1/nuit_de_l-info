@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { createPageUrl } from '@/utils';
-import { Sparkles, Play, Users, BookOpen, TreePine, MessageSquare, Star } from 'lucide-react';
+import { Sparkles, Play, Users, BookOpen, TreePine, MessageSquare, Star, Settings, Calculator, MapPin } from 'lucide-react';
 import PlayerStats from '@/components/game/PlayerStats.jsx';
 import { trackDailyVisit, LevelUpPopup } from '@/components/game/GamificationSystem.jsx';
 
@@ -198,20 +198,47 @@ export default function Home() {
                 ))}
                 </motion.div>
 
-                {/* Forum link */}
+                {/* Forum and Tools links */}
                 <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 1 }}
-                className="mt-8"
+                className="mt-8 space-y-4"
                 >
-                <Link
-                  to={createPageUrl('Forum')}
-                  className="inline-flex items-center gap-2 px-6 py-3 bg-purple-500/20 border border-purple-500/30 rounded-xl text-purple-400 hover:bg-purple-500/30 transition-colors"
-                >
-                  <MessageSquare className="w-5 h-5" />
-                  Rejoindre le forum communautaire
-                </Link>
+                  <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                    <Link
+                      to={createPageUrl('Forum')}
+                      className="inline-flex items-center gap-2 px-6 py-3 bg-purple-500/20 border border-purple-500/30 rounded-xl text-purple-400 hover:bg-purple-500/30 transition-colors"
+                    >
+                      <MessageSquare className="w-5 h-5" />
+                      Rejoindre le forum communautaire
+                    </Link>
+                    <Link
+                      to={createPageUrl('MigrationGuide')}
+                      className="inline-flex items-center gap-2 px-6 py-3 bg-blue-500/20 border border-blue-500/30 rounded-xl text-blue-400 hover:bg-blue-500/30 transition-colors"
+                    >
+                      <Settings className="w-5 h-5" />
+                      Guide de migration Linux
+                    </Link>
+                  </div>
+                  
+                  {/* Nouveaux outils */}
+                  <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                    <Link
+                      to={createPageUrl('CostComparator')}
+                      className="inline-flex items-center gap-2 px-6 py-3 bg-emerald-500/20 border border-emerald-500/30 rounded-xl text-emerald-400 hover:bg-emerald-500/30 transition-colors"
+                    >
+                      <Calculator className="w-5 h-5" />
+                      Comparateur de coûts
+                    </Link>
+                    <Link
+                      to={createPageUrl('NIRDMap')}
+                      className="inline-flex items-center gap-2 px-6 py-3 bg-orange-500/20 border border-orange-500/30 rounded-xl text-orange-400 hover:bg-orange-500/30 transition-colors"
+                    >
+                      <MapPin className="w-5 h-5" />
+                      Carte des établissements
+                    </Link>
+                  </div>
               </motion.div>
             </motion.div>
           )}

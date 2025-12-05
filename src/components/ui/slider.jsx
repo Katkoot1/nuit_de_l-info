@@ -10,3 +10,4 @@ export function Slider({ className = '', ...props }) {
   );
 }
 
+

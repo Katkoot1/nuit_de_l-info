@@ -12,6 +12,10 @@ import Profil from '../Pages/Profil.jsx';
 import SimulationGame from '../Pages/SimulationGame.jsx';
 import Resources from '../Pages/Resources.jsx';
 import EstablishmentDashboard from '../Pages/EstablishmentDashboard.jsx';
+import CarbonFootprintCalculator from '../Pages/CarbonFootprintCalculator.jsx';
+import CostComparator from '../Pages/CostComparator.jsx';
+import NIRDMap from '../Pages/NIRDMap.jsx';
+import MigrationGuide from '../Pages/MigrationGuide.jsx';
 
 function AppContent() {
   const location = useLocation();
@@ -32,6 +36,10 @@ function AppContent() {
         <Route path="/simulation" element={<SimulationGame />} />
         <Route path="/resources" element={<Resources />} />
         <Route path="/dashboard" element={<EstablishmentDashboard />} />
+        <Route path="/cost-comparator" element={<CostComparator />} />
+        <Route path="/map" element={<NIRDMap />} />
+        <Route path="/migration" element={<MigrationGuide />} />
+        <Route path="/carbon-calculator" element={<CarbonFootprintCalculator />} />
       </Routes>
     </Layout>
   );
