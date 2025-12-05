@@ -11,24 +11,45 @@ import { Scan, AlertTriangle, CheckCircle, ArrowRight, Zap, Server, FileText, Cl
 const chapter1Resources = [
   {
     type: 'article',
-    title: 'L\'obsolescence programmée dans l\'éducation',
-    description: 'Comment les mises à jour logicielles forcent les établissements à renouveler leur matériel prématurément.',
-    url: 'https://www.halteobsolescence.org/obsolescence-programmee-dans-leducation/',
-    source: 'HOP'
+    title: 'Bruay-la-Buissière : Voyage au centre du libre éducatif',
+    description: 'Article du Café Pédagogique sur le projet NIRD au lycée Carnot et la lutte contre l\'obsolescence programmée.',
+    url: 'https://www.cafepedagogique.net/2025/04/27/bruay-labuissiere-voyage-au-centre-du-libre-educatif/',
+    source: 'Café Pédagogique'
   },
   {
     type: 'video',
-    title: 'Cash Investigation - Les secrets de l\'obsolescence programmée',
-    description: 'Enquête sur les pratiques des fabricants qui réduisent la durée de vie des appareils.',
-    url: 'https://www.youtube.com/watch?v=2n5uCWPPyIc',
-    source: 'France TV'
+    title: 'Windows 11 : l\'alternative des logiciels libres',
+    description: 'Reportage France 3 Alpes (octobre 2025) sur les solutions libres face à l\'obsolescence programmée.',
+    url: 'https://video.echirolles.fr/w/hVykGUtRZqRen6eiutqRvQ',
+    source: 'France 3 Alpes'
   },
   {
-    type: 'case_study',
-    title: 'Le lycée de Carquefou passe à Linux',
-    description: 'Retour d\'expérience sur la migration de 400 postes vers des logiciels libres.',
-    url: 'https://nird.forge.apps.education.fr/',
-    source: 'NIRD'
+    type: 'audio',
+    title: 'Mises à jour de Windows : face à l\'obsolescence programmée, le logiciel libre comme solution ?',
+    description: 'Grand reportage de France Inter (octobre 2025) sur l\'obsolescence programmée et les alternatives libres.',
+    url: 'https://www.radiofrance.fr/franceinter/podcasts/le-grand-reportage-de-france-inter/le-grand-reportage-du-mardi-14-octobre-2025-4136495',
+    source: 'France Inter'
+  },
+  {
+    type: 'video',
+    title: 'Logiciel obsolète : l\'État obligé de jeter des milliers d\'ordinateurs ?',
+    description: 'Reportage France Info (septembre 2025) sur les conséquences de l\'obsolescence programmée dans le secteur public.',
+    url: 'https://www.youtube.com/watch?v=76T8oubek-c',
+    source: 'France Info'
+  },
+  {
+    type: 'video',
+    title: 'Linux, c\'est facile ! - Intervention des élèves du lycée Carnot',
+    description: 'Captation vidéo d\'une intervention des élèves du lycée Carnot présentant Linux (5 min).',
+    url: 'https://tube-numerique-educatif.apps.education.fr/w/3LXem3XK4asbwZa5R1qGkW',
+    source: 'Lycée Carnot'
+  },
+  {
+    type: 'video',
+    title: 'Le projet NIRD présenté par les élèves du lycée Carnot',
+    description: 'Vidéo de présentation du projet NIRD par les élèves du lycée Carnot (4 min).',
+    url: 'https://tube-numerique-educatif.apps.education.fr/w/pZCnzPKTYX2iF38Qh4ZGmq',
+    source: 'Lycée Carnot'
   },
   {
     type: 'article',

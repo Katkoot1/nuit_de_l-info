@@ -92,19 +92,181 @@ function initializeDemoData() {
     }
   ];
 
+  // Demo impact data
+  const demoImpactData = [
+    {
+      id: 'impact-1',
+      establishment_name: 'Lycée Victor Hugo',
+      month: new Date(Date.now() - 2 * 30 * 24 * 60 * 60 * 1000).toISOString().slice(0, 7), // Il y a 2 mois
+      server_consumption_kwh: 1200,
+      devices_recycled: 15,
+      devices_extended_life: 25,
+      free_software_percentage: 65,
+      linux_devices: 80,
+      total_devices: 150,
+      notes: 'Migration progressive vers Linux sur les postes administratifs. Formation des enseignants en cours.',
+      co2_saved_kg: (15 * 150) + (25 * 50) + (80 * 20), // Calcul automatique
+      created_date: new Date(Date.now() - 2 * 30 * 24 * 60 * 60 * 1000).toISOString()
+    },
+    {
+      id: 'impact-2',
+      establishment_name: 'Lycée Victor Hugo',
+      month: new Date(Date.now() - 1 * 30 * 24 * 60 * 60 * 1000).toISOString().slice(0, 7), // Il y a 1 mois
+      server_consumption_kwh: 1100,
+      devices_recycled: 8,
+      devices_extended_life: 12,
+      free_software_percentage: 72,
+      linux_devices: 95,
+      total_devices: 150,
+      notes: 'Continuation de la migration. 95 postes Linux maintenant. Économies de licences : 4500€/mois.',
+      co2_saved_kg: (8 * 150) + (12 * 50) + (95 * 20),
+      created_date: new Date(Date.now() - 1 * 30 * 24 * 60 * 60 * 1000).toISOString()
+    },
+    {
+      id: 'impact-3',
+      establishment_name: 'Lycée Victor Hugo',
+      month: new Date().toISOString().slice(0, 7), // Ce mois
+      server_consumption_kwh: 1050,
+      devices_recycled: 5,
+      devices_extended_life: 8,
+      free_software_percentage: 78,
+      linux_devices: 110,
+      total_devices: 150,
+      notes: 'Objectif 80% atteint ! Les élèves participent activement à la maintenance des postes Linux.',
+      co2_saved_kg: (5 * 150) + (8 * 50) + (110 * 20),
+      created_date: new Date().toISOString()
+    },
+    {
+      id: 'impact-4',
+      establishment_name: 'Collège Jean Jaurès',
+      month: new Date(Date.now() - 1 * 30 * 24 * 60 * 60 * 1000).toISOString().slice(0, 7),
+      server_consumption_kwh: 800,
+      devices_recycled: 12,
+      devices_extended_life: 18,
+      free_software_percentage: 45,
+      linux_devices: 35,
+      total_devices: 90,
+      notes: 'Début de migration. Formation des équipes techniques. Premiers retours positifs.',
+      co2_saved_kg: (12 * 150) + (18 * 50) + (35 * 20),
+      created_date: new Date(Date.now() - 1 * 30 * 24 * 60 * 60 * 1000).toISOString()
+    },
+    {
+      id: 'impact-5',
+      establishment_name: 'Collège Jean Jaurès',
+      month: new Date().toISOString().slice(0, 7),
+      server_consumption_kwh: 750,
+      devices_recycled: 6,
+      devices_extended_life: 10,
+      free_software_percentage: 55,
+      linux_devices: 45,
+      total_devices: 90,
+      notes: 'Progression constante. Atelier de réparation avec les élèves organisé ce mois.',
+      co2_saved_kg: (6 * 150) + (10 * 50) + (45 * 20),
+      created_date: new Date().toISOString()
+    }
+  ];
+
   localStorage.setItem('nird-forum-posts', JSON.stringify(demoPosts));
   localStorage.setItem('nird-forum-replies', JSON.stringify(demoReplies));
+  localStorage.setItem('nird-impact-data', JSON.stringify(demoImpactData));
   localStorage.setItem('nird-demo-initialized', 'true');
 }
 
 // Initialize on import
 if (typeof window !== 'undefined') {
   initializeDemoData();
+  
+  // Vérifier et ajouter les données d'impact si elles n'existent pas
+  const existingImpactData = localStorage.getItem('nird-impact-data');
+  if (!existingImpactData || JSON.parse(existingImpactData).length === 0) {
+    const demoImpactData = [
+      {
+        id: 'impact-1',
+        establishment_name: 'Lycée Victor Hugo',
+        month: new Date(Date.now() - 2 * 30 * 24 * 60 * 60 * 1000).toISOString().slice(0, 7),
+        server_consumption_kwh: 1200,
+        devices_recycled: 15,
+        devices_extended_life: 25,
+        free_software_percentage: 65,
+        linux_devices: 80,
+        total_devices: 150,
+        notes: 'Migration progressive vers Linux sur les postes administratifs. Formation des enseignants en cours.',
+        co2_saved_kg: (15 * 150) + (25 * 50) + (80 * 20),
+        created_date: new Date(Date.now() - 2 * 30 * 24 * 60 * 60 * 1000).toISOString()
+      },
+      {
+        id: 'impact-2',
+        establishment_name: 'Lycée Victor Hugo',
+        month: new Date(Date.now() - 1 * 30 * 24 * 60 * 60 * 1000).toISOString().slice(0, 7),
+        server_consumption_kwh: 1100,
+        devices_recycled: 8,
+        devices_extended_life: 12,
+        free_software_percentage: 72,
+        linux_devices: 95,
+        total_devices: 150,
+        notes: 'Continuation de la migration. 95 postes Linux maintenant. Économies de licences : 4500€/mois.',
+        co2_saved_kg: (8 * 150) + (12 * 50) + (95 * 20),
+        created_date: new Date(Date.now() - 1 * 30 * 24 * 60 * 60 * 1000).toISOString()
+      },
+      {
+        id: 'impact-3',
+        establishment_name: 'Lycée Victor Hugo',
+        month: new Date().toISOString().slice(0, 7),
+        server_consumption_kwh: 1050,
+        devices_recycled: 5,
+        devices_extended_life: 8,
+        free_software_percentage: 78,
+        linux_devices: 110,
+        total_devices: 150,
+        notes: 'Objectif 80% atteint ! Les élèves participent activement à la maintenance des postes Linux.',
+        co2_saved_kg: (5 * 150) + (8 * 50) + (110 * 20),
+        created_date: new Date().toISOString()
+      },
+      {
+        id: 'impact-4',
+        establishment_name: 'Collège Jean Jaurès',
+        month: new Date(Date.now() - 1 * 30 * 24 * 60 * 60 * 1000).toISOString().slice(0, 7),
+        server_consumption_kwh: 800,
+        devices_recycled: 12,
+        devices_extended_life: 18,
+        free_software_percentage: 45,
+        linux_devices: 35,
+        total_devices: 90,
+        notes: 'Début de migration. Formation des équipes techniques. Premiers retours positifs.',
+        co2_saved_kg: (12 * 150) + (18 * 50) + (35 * 20),
+        created_date: new Date(Date.now() - 1 * 30 * 24 * 60 * 60 * 1000).toISOString()
+      },
+      {
+        id: 'impact-5',
+        establishment_name: 'Collège Jean Jaurès',
+        month: new Date().toISOString().slice(0, 7),
+        server_consumption_kwh: 750,
+        devices_recycled: 6,
+        devices_extended_life: 10,
+        free_software_percentage: 55,
+        linux_devices: 45,
+        total_devices: 90,
+        notes: 'Progression constante. Atelier de réparation avec les élèves organisé ce mois.',
+        co2_saved_kg: (6 * 150) + (10 * 50) + (45 * 20),
+        created_date: new Date().toISOString()
+      }
+    ];
+    localStorage.setItem('nird-impact-data', JSON.stringify(demoImpactData));
+  }
 }
 
 // Helper functions for localStorage
 function getStorageKey(entity) {
-  return `nird-${entity.toLowerCase()}`;
+  // Map entity names to storage keys
+  const keyMap = {
+    'forum-posts': 'nird-forum-posts',
+    'forum-replies': 'nird-forum-replies',
+    'impact-data': 'nird-impact-data',
+    'multiplayer-sessions': 'nird-multiplayer-sessions',
+    'player-results': 'nird-player-results',
+    'simulation-scores': 'nird-simulation-scores'
+  };
+  return keyMap[entity] || `nird-${entity.toLowerCase()}`;
 }
 
 function getAllItems(entity) {
@@ -292,12 +454,29 @@ export const base44 = {
     },
     ImpactData: {
       create: async (data) => {
-        console.log('Creating impact data:', data);
-        return { id: Date.now(), ...data };
+        const impactData = getAllItems('impact-data');
+        const newImpact = {
+          id: `impact-${Date.now()}`,
+          ...data,
+          created_date: new Date().toISOString()
+        };
+        impactData.push(newImpact);
+        saveItems('impact-data', impactData);
+        return newImpact;
       },
-      filter: async (query) => {
-        console.log('Filtering impact data:', query);
-        return [];
+      list: async (orderBy) => {
+        const impactData = getAllItems('impact-data');
+        return sortItems(impactData, orderBy);
+      },
+      filter: async (query, orderBy) => {
+        const impactData = getAllItems('impact-data');
+        let filtered = impactData;
+        if (query && Object.keys(query).length > 0) {
+          filtered = impactData.filter(item => {
+            return Object.keys(query).every(key => item[key] === query[key]);
+          });
+        }
+        return sortItems(filtered, orderBy);
       }
     },
     MultiplayerSession: {

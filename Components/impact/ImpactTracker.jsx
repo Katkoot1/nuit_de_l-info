@@ -23,12 +23,12 @@ export default function ImpactTracker({ onDataSaved }) {
   const [formData, setFormData] = useState({
     establishment_name: '',
     month: new Date().toISOString().slice(0, 7),
-    server_consumption_kwh: 0,
-    devices_recycled: 0,
-    devices_extended_life: 0,
+    server_consumption_kwh: '',
+    devices_recycled: '',
+    devices_extended_life: '',
     free_software_percentage: 50,
-    linux_devices: 0,
-    total_devices: 0,
+    linux_devices: '',
+    total_devices: '',
     notes: ''
   });
 
@@ -36,11 +36,15 @@ export default function ImpactTracker({ onDataSaved }) {
 
   const saveMutation = useMutation({
     mutationFn: async (data) => {
-      // Calculate estimated CO2 saved
+      // Calculate estimated CO2 saved (convert empty strings to 0)
+      const devicesRecycled = Number(data.devices_recycled) || 0;
+      const devicesExtended = Number(data.devices_extended_life) || 0;
+      const linuxDevices = Number(data.linux_devices) || 0;
+      
       const co2_saved_kg = 
-        (data.devices_recycled * 150) + // ~150kg CO2 par appareil non produit
-        (data.devices_extended_life * 50) + // ~50kg CO2 par année de vie prolongée
-        (data.linux_devices * 20); // ~20kg CO2 économisé par poste Linux vs Windows
+        (devicesRecycled * 150) + // ~150kg CO2 par appareil non produit
+        (devicesExtended * 50) + // ~50kg CO2 par année de vie prolongée
+        (linuxDevices * 20); // ~20kg CO2 économisé par poste Linux vs Windows
       
       return base44.entities.ImpactData.create({ ...data, co2_saved_kg });
     },
@@ -52,11 +56,32 @@ export default function ImpactTracker({ onDataSaved }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    saveMutation.mutate(formData);
+    // Convertir les chaînes vides en 0 pour l'envoi
+    const dataToSave = {
+      ...formData,
+      server_consumption_kwh: Number(formData.server_consumption_kwh) || 0,
+      devices_recycled: Number(formData.devices_recycled) || 0,
+      devices_extended_life: Number(formData.devices_extended_life) || 0,
+      linux_devices: Number(formData.linux_devices) || 0,
+      total_devices: Number(formData.total_devices) || 0
+    };
+    saveMutation.mutate(dataToSave);
   };
 
   const updateField = (field, value) => {
     setFormData(prev => ({ ...prev, [field]: value }));
+  };
+
+  const handleNumberChange = (field, e) => {
+    const inputValue = e.target.value;
+    // Si le champ est vide, on met une chaîne vide (pas 0)
+    if (inputValue === '') {
+      updateField(field, '');
+    } else {
+      // Convertir en nombre, ou garder 0 si invalide
+      const numValue = parseInt(inputValue, 10);
+      updateField(field, isNaN(numValue) ? '' : numValue);
+    }
   };
 
   return (
@@ -117,8 +142,14 @@ export default function ImpactTracker({ onDataSaved }) {
               <Input
                 type="number"
                 min="0"
-                value={formData[field.id]}
-                onChange={(e) => updateField(field.id, parseInt(e.target.value) || 0)}
+                value={formData[field.id] === 0 ? '' : (formData[field.id] || '')}
+                onChange={(e) => handleNumberChange(field.id, e)}
+                onFocus={(e) => {
+                  // Si la valeur est 0 ou vide, sélectionner tout pour permettre de taper directement
+                  if (e.target.value === '0' || e.target.value === '') {
+                    e.target.select();
+                  }
+                }}
                 placeholder={field.placeholder}
                 className="bg-slate-700/50 border-white/10 text-white"
               />
@@ -166,7 +197,7 @@ export default function ImpactTracker({ onDataSaved }) {
             Impact estimé ce mois
           </h3>
           <p className="text-2xl font-bold text-white">
-            ~{(formData.devices_recycled * 150) + (formData.devices_extended_life * 50) + (formData.linux_devices * 20)} kg CO₂
+            ~{((Number(formData.devices_recycled) || 0) * 150) + ((Number(formData.devices_extended_life) || 0) * 50) + ((Number(formData.linux_devices) || 0) * 20)} kg CO₂
             <span className="text-sm font-normal text-slate-400 ml-2">économisés</span>
           </p>
         </div>
